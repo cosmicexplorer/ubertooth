@@ -54,3 +54,8 @@ ID
 *.sublime-workspace
 .vscode
 
+/.cache/
+/dist/
+/.pants.d/
+/.pids/
+/.pants.workdir.file_lock
