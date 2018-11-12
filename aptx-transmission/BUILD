@@ -2,13 +2,13 @@ python_dist(
   name='wrapper-dist',
   sources=rglobs('*.py', exclude=['main.py']),
   dependencies=[':ubertooth-wrapper-lib'],
-  compatibility=['CPython>3'],
 )
 
 python_binary(
   name='bin',
   source='main.py',
   dependencies=[':wrapper-dist'],
+  platforms=['current'],
 )
 
 ubertooth_lib_loc = 'host/libubertooth/src'
