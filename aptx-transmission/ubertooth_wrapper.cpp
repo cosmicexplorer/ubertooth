@@ -4,9 +4,6 @@ extern "C" {
 #include "ubertooth_fifo.h"
 }
 
-/* FIXME: where was this copied from? where should it be moved to? */
-#define BULK_OUT_EP 0x05
-
 /* TODO:
    1. (transmitter end) hook up the ubertooth lifecycle methods (as seen in
    ubertooth-specan.c) to write random data (technically pcm) and use the other
@@ -29,7 +26,7 @@ bool tx_aaaaaa(ubertooth_t *ut) {
   uint8_t tx_arr[len];
   for (size_t i = 0; i < 64; i++) {
     auto num_transferred =
-        libusb_bulk_transfer(ut->devh, BULK_OUT_EP, tx_arr, len, nullptr, 100);
+        libusb_bulk_transfer(ut->devh, LIBUSB_TRANSFER_TYPE_BULK_STREAM, tx_arr, len, nullptr, 100);
     /* if (num_transferred < len) { */
     /*   return false; */
     /* } */
