@@ -26,45 +26,45 @@
 
 fifo_t* fifo_init()
 {
-	fifo_t* fifo = (fifo_t*)malloc(sizeof(fifo_t));
+        fifo_t* fifo = (fifo_t*)malloc(sizeof(fifo_t));
 
-	fifo->read_ptr = 0;
-	fifo->write_ptr = 0;
+        fifo->read_ptr = 0;
+        fifo->write_ptr = 0;
 
-	return fifo;
-}
-
-void fifo_inc_write_ptr(fifo_t* fifo)
-{
-	if (fifo->read_ptr != (fifo->write_ptr+1) % FIFO_SIZE) {
-		fifo->write_ptr = (fifo->write_ptr+1) % FIFO_SIZE;
-	} else {
-		fprintf(stderr, "FIFO overflow, packet discarded\n");
-	}
+        return fifo;
 }
 
 uint8_t fifo_empty(fifo_t* fifo)
 {
-	return (fifo->read_ptr == fifo->write_ptr);
+        return (fifo->read_ptr == fifo->write_ptr);
+}
+
+void fifo_inc_write_ptr(fifo_t* fifo)
+{
+        if (fifo->read_ptr != (fifo->write_ptr+1) % FIFO_SIZE) {
+                fifo->write_ptr = (fifo->write_ptr+1) % FIFO_SIZE;
+        } else {
+                fprintf(stderr, "FIFO overflow, packet discarded\n");
+        }
 }
 
 void fifo_push(fifo_t* fifo, const usb_pkt_rx* packet)
 {
-	memcpy(&(fifo->packets[fifo->write_ptr]), packet, sizeof(usb_pkt_rx));
+        memcpy(&(fifo->packets[fifo->write_ptr]), packet, sizeof(usb_pkt_rx));
 
-	fifo_inc_write_ptr(fifo);
+        fifo_inc_write_ptr(fifo);
 }
 
 usb_pkt_rx fifo_pop(fifo_t* fifo)
 {
-	size_t selected = fifo->read_ptr;
+        size_t selected = fifo->read_ptr;
 
-	fifo->read_ptr = (fifo->read_ptr+1) % FIFO_SIZE;
+        fifo->read_ptr = (fifo->read_ptr+1) % FIFO_SIZE;
 
-	return fifo->packets[selected];
+        return fifo->packets[selected];
 }
 
 usb_pkt_rx* fifo_get_write_element(fifo_t* fifo)
 {
-	return &(fifo->packets[fifo->write_ptr]);
+        return &(fifo->packets[fifo->write_ptr]);
 }

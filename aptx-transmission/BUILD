@@ -33,8 +33,8 @@ ctypes_compatible_cpp_library(
   name='ubertooth-wrapper-lib',
   ctypes_native_library=native_artifact(lib_name='ubertooth-wrapper'),
   dependencies=[
-    ':libusb',
     # 'host/libubertooth/src',
+    ':libusb',
     ':ubertooth-precompiled',
     'libopenaptx',
   ],
